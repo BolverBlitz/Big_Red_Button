@@ -14,6 +14,8 @@
 
             canvas {
                 position: absolute;
+                pointer-events: none;
+                z-index:3;
                 top: 0;
                 left: 0;
             }
@@ -25,6 +27,7 @@
             /* Button */
             button { 
                 position: relative;
+                z-index:1;
                 border-radius: 50%; 
                 width: 300px;
                 height: 300px;
@@ -112,6 +115,16 @@
         }
     }
 
+    $(document).on('keypress',function(e) {
+        if(e.which == 115 || e.which == 83) {
+            window.location.replace(`${baseUrl}settings.html`);
+        }
+    });
+
+    const input = document.getElementById('UserToBan');
+    input.focus();
+    input.select();
+
     // Twitch API Initialization
     const client = new tmi.Client({ 
         connection: {
@@ -149,38 +162,59 @@
         dance.classList.remove("pressed"); 
     }
 
+    function handleKey() {
+        dance.classList.add("pressed");
+        client.ban(localStorage.getItem("Channel"), $('#UserToBan').val(), localStorage.getItem("Reson")).then(() => {
+            setTimeout(unpress, 500);
+        }).catch(function(err) {
+            setTimeout(unpress, 500);
+            if(err === "already_banned"){
+                SnackBar({
+                    message: `${$('#UserToBan').val()} is already banned!`,
+                    width: "400px",
+                    speed: Global.SnackBox_Timeout,
+                    position: Global.SnackBox_Location,
+                    status: "error",
+                });
+            }else if(err === "invalid_user"){
+                SnackBar({
+                    message: `${$('#UserToBan').val()} is not a valid user!`,
+                    width: "400px",
+                    speed: Global.SnackBox_Timeout,
+                    position: Global.SnackBox_Location,
+                    status: "error",
+                });
+            }else{
+                console.log(err)
+            }
+        });
+    }
+
     function runButton() {
-        if(localStorage.getItem("Brodcast") === "true"){
-            client.say(localStorage.getItem("Channel"), `The user ${$('#UserToBan').val()} hat been banned for ${localStorage.getItem("Reson")}`);
-        }
-
-        countdown().then(() => {
-            dance.classList.add("pressed");
-
-            client.ban(localStorage.getItem("Channel"), $('#UserToBan').val(), localStorage.getItem("Reson")).then(() => {
-                setTimeout(unpress, 500);
-            }).catch(function(err) {
-                if(err === "already_banned"){
-                    SnackBar({
-                        message: `${$('#UserToBan').val()} is already banned!`,
-                        width: "400px",
-                        speed: Global.SnackBox_Timeout,
-                        position: Global.SnackBox_Location,
-                        status: "error",
-                    });
-                }else if(err === "invalid_user"){
-                    SnackBar({
-                        message: `${$('#UserToBan').val()} is not a valid user!`,
-                        width: "400px",
-                        speed: Global.SnackBox_Timeout,
-                        position: Global.SnackBox_Location,
-                        status: "error",
-                    });
-                }else{
-                    console.log(err)
-                }
+        if($('#UserToBan').val() === ""){
+            SnackBar({
+                message: `Please enter a username!`,
+                width: "400px",
+                speed: Global.SnackBox_Timeout,
+                position: Global.SnackBox_Location,
+                status: "error",
             });
-        })
+        }else{
+            if(localStorage.getItem("Brodcast") == "true"){
+                client.say(localStorage.getItem("Channel"), `The user ${$('#UserToBan').val()} hat been banned for ${localStorage.getItem("Reson")}`);
+            }
+
+            //ResetCountDown
+            countdownRunning = true;
+            countdownFrom = localStorage.getItem("CoutDownTime");
+
+            if(localStorage.getItem("CoutDown") == "true"){
+                countdown()
+            }else{
+                handleKey();
+            }
+        }
+        
     }
 
     dance.addEventListener('click', function(event) { 
@@ -192,7 +226,7 @@
     */
     var numberStage,
             numberStageCtx,
-             numberStageWidth = 680,
+            numberStageWidth = 680,
             numberStageHeight = 420,
             numberOffsetX,
             numberOffsetY,
@@ -204,8 +238,8 @@
             stageCenterX = stageWidth/2,
             stageCenterY = stageHeight/2,
             
-            countdownFrom = 10,
-            countdownTimer = 3200,
+            countdownFrom = localStorage.getItem("CoutDownTime"),
+            countdownTimer = 2400,
             countdownRunning = true,
             
             number,
@@ -282,24 +316,23 @@
     Desc: Countdown
     */
     function countdown() {
-        return new Promise(function(resolve, reject) {
             // Send number to be drawn
             drawNumber(countdownFrom.toString());
+            
         
             // When we hit zero stop countdown
             if (countdownFrom === 0) {
                 countdownRunning = false;
+                
+                breakNumber();
                 // Now that countdowns finised show the text Go
-                resolve(true);
             }
             
             // Decrement number down
             countdownFrom--;
-        });
     
     }
-    //countdown();
-    
+
     
     /*
     Desc: Redraw loops
@@ -394,7 +427,7 @@
         // Break number apart
         if (countdownRunning && countdownFrom > 0) {
             setTimeout(function() {
-                 breakNumber();
+                countdown();
             }, countdownTimer);
         }
     }
@@ -405,12 +438,10 @@
                 tweenDots(dots[i], '', 'space');	
             }
         
-            if (countdownRunning) {
-                // Build next number
-                setTimeout(function() {
-                    countdown();
-                }, countdownTimer);
-            }
+            // Build next number
+            setTimeout(function() {
+                handleKey();
+            }, countdownTimer);
     
     }
     
