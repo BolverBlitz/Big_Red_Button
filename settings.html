@@ -302,6 +302,9 @@
     $('#Username').val(localStorage.getItem("Username"))
     $('#Channel').val(localStorage.getItem("Channel"))
     $('#Reson').val(localStorage.getItem("Reson"))
+    $('#Brodcast').prop('checked', localStorage.getItem("Brodcast") == "true")
+    $('#CoutDown').prop('checked', localStorage.getItem("CoutDown") == "true")
+    $('#CoutDownTime').val(localStorage.getItem("CoutDownTime"))
 
     $("#Settings").submit(function(event) {
         event.preventDefault();
