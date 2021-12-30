@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <title>BRB - Button</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/scripts/tmi.min.js"></script>
+        <script src="/scripts/snackbar.js"></script>
+        <link rel="stylesheet" href="style/snackbar.css" />
+        <style>
+            html { height: 100%; }
+            body { min-height: 100%; margin: 0; display: flex; justify-content: center; align-items: center; }
+
+            /* Button */
+            button { 
+                position: relative;
+                border-radius: 50%; 
+                width: 300px;
+                height: 300px;
+                border: none;
+                color: white;
+                font-family: Avenir, Arial, sans-serif;
+                font-weight: 900;
+                font-size: 3.5rem;
+                background: red;
+                text-shadow: 0 5px 1px rgba(122,17,8,.8);
+                box-shadow: 0 8px 0 rgb(183,9,0), 
+                    0 15px 20px rgba(0,0,0,.35);
+                text-transform: uppercase;
+                transition: .4s all ease-in;
+                outline: none; 
+                cursor: pointer;
+                text-align: center;
+            }
+
+            button span { position: relative; }
+                /* fix for IE 11 (and IE8+, although the earlier versions are harder to address) stupidly moving the inner button text on click */
+            .pressed { 
+                padding-top: 3px;
+                transform: translateY(4px);
+                box-shadow: 0 4px 0 rgb(183,0,0),
+                0 8px 6px rgba(0,0,0,.45);
+            }
+
+            /* Input Field */
+            input[type=text]{
+                width:80%;
+                text-align: center;
+                position: relative;
+                top: 35px;
+                left: -6%;
+                border:2px solid #aaa;
+                border-radius:4px;
+                margin:8px 0;
+                outline:none;
+                padding:8px;
+                box-sizing:border-box;
+                transition:.3s;
+            }
+            
+            input[type=text]:focus{
+                border-color:dodgerBlue;
+                box-shadow:0 0 8px 0 dodgerBlue;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <button id="BRB" type="button">BAN!</button>
+            <input type="text" id="UserToBan" placeholder="Username">
+        </div>
+    </body>
+</html>
+
+<script>
+    const Global = {
+        SnackBox_Timeout: 400,
+        SnackBox_Location: 'tr',
+    }; 	
+    // Get global locations
+    const getUrl = window.location;
+    const baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+    
+    const urlParams = decodeURI(getUrl.hash)
+        .replace('#', '')
+        .split('&')
+        .map(param => param.split('='))
+        .reduce((values, [ key, value ]) => {
+            values[ key ] = value
+            return values
+    }, {})
+
+    //Check Twich OAuth Token
+    if ('access_token' in urlParams){
+        sessionStorage.setItem("access_token", urlParams.access_token)
+        window.location.replace(`${baseUrl}`);
+    }else{
+        if(sessionStorage.getItem("access_token") === null) {
+	        window.location.replace(`${baseUrl}login.html`);
+        }
+    }
+
+    // Twitch API Initialization
+    const client = new tmi.Client({ 
+        connection: {
+            secure: true,
+            reconnect: true
+        },
+        identity: {
+		    username: localStorage.getItem("Username"),
+		    password: `oauth:${sessionStorage.getItem("access_token")}`
+	    },
+        channels: [localStorage.getItem("Channel")]
+    });
+    client.connect().then(() => {
+        SnackBar({
+            message: `Connected to Twich!`,
+            width: "400px",
+            speed: Global.SnackBox_Timeout,
+            position: Global.SnackBox_Location,
+            status: "success",
+        });
+    }).catch(err => {
+        SnackBar({
+            message: `Error: ${err}`,
+            width: "400px",
+            speed: Global.SnackBox_Timeout,
+            position: Global.SnackBox_Location,
+            status: "error",
+        });
+    });
+
+    //Button handler
+    const dance = document.getElementById("BRB");
+
+    function unpress() { 
+        dance.classList.remove("pressed"); 
+    }
+
+    function runButton() {
+        if(localStorage.getItem("Brodcast") === "true"){
+            client.say(localStorage.getItem("Channel"), `The user ${$('#UserToBan').val()} hat been banned for ${localStorage.getItem("Reson")}`);
+        }
+
+        dance.classList.add("pressed");
+
+        client.ban(localStorage.getItem("Channel"), $('#UserToBan').val(), localStorage.getItem("Reson")).then(() => {
+            setTimeout(unpress, 500);
+        }).catch(function(err) {
+            if(err === "already_banned"){
+                SnackBar({
+                    message: `${$('#UserToBan').val()} is already banned!`,
+                    width: "400px",
+                    speed: Global.SnackBox_Timeout,
+                    position: Global.SnackBox_Location,
+                    status: "error",
+                });
+            }else if(err === "invalid_user"){
+                SnackBar({
+                    message: `${$('#UserToBan').val()} is not a valid user!`,
+                    width: "400px",
+                    speed: Global.SnackBox_Timeout,
+                    position: Global.SnackBox_Location,
+                    status: "error",
+                });
+            }else{
+                console.log(err)
+            }
+        });
+    }
+
+    dance.addEventListener('click', function(event) { 
+        runButton(); 
+    });
+</script>
+
+<!-- Credits: -->
+<!-- https://codepen.io/dudleystorey/pen/zqgGn -->
+<!-- https://codepen.io/zFunx/pen/GWPQNz -->
