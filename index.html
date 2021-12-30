@@ -112,19 +112,46 @@
         window.location.replace(`${baseUrl}`);
     }else{
         if(sessionStorage.getItem("access_token") === null) {
+            sessionStorage.setItem("first_open", "true")
 	        window.location.replace(`${baseUrl}login.html`);
         }
     }
 
+    //Register Keypress to go to settings
     $(document).on('keypress',function(e) {
         if(e.which == 115 || e.which == 83) {
             window.location.replace(`${baseUrl}settings.html`);
         }
     });
 
+    //Auto select input field
     const input = document.getElementById('UserToBan');
     input.focus();
     input.select();
+
+    //Check if user has Settings
+    
+    if(localStorage.getItem("Username") === null && localStorage.getItem("Channel") === null && localStorage.getItem("Reson") === null && localStorage.getItem("CoutDownTime") === null) {
+        sessionStorage.setItem("first_open", "false")
+        SnackBar({
+            message: `You need to enter settings, press "S" to go to settings`,
+            width: "400px",
+            speed: Global.SnackBox_Timeout*2,
+            position: Global.SnackBox_Location,
+            status: "danger",
+        });
+    }
+
+    //Tell user about the settings page
+    if(sessionStorage.getItem("first_open") == "true"){
+        SnackBar({
+            message: `To get to the settings, press "S"`,
+            width: "400px",
+            speed: Global.SnackBox_Timeout*2,
+            position: Global.SnackBox_Location,
+            status: "info",
+        });
+    }
 
     // Twitch API Initialization
     const client = new tmi.Client({ 
@@ -191,6 +218,14 @@
                     speed: Global.SnackBox_Timeout,
                     position: Global.SnackBox_Location,
                     status: "error",
+                });
+            }else if(err === "No response from Twitch."){
+                SnackBar({
+                    message: `You need to enter settings, press "S" to go to settings`,
+                    width: "400px",
+                    speed: Global.SnackBox_Timeout*2,
+                    position: Global.SnackBox_Location,
+                    status: "danger",
                 });
             }else{
                 console.log(err)
