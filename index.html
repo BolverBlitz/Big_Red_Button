@@ -59,6 +59,7 @@
             /* Input Field */
             input[type=text]{
                 width:80%;
+                z-index:2;
                 text-align: center;
                 position: relative;
                 background: rgb(253, 96, 96);
@@ -192,13 +193,7 @@
 
     function runButton() {
         if($('#UserToBan').val() === ""){
-            SnackBar({
-                message: `Please enter a username!`,
-                width: "400px",
-                speed: Global.SnackBox_Timeout,
-                position: Global.SnackBox_Location,
-                status: "error",
-            });
+            console.log("Likly unitentional press")
         }else{
             if(localStorage.getItem("Brodcast") == "true"){
                 client.say(localStorage.getItem("Channel"), `The user ${$('#UserToBan').val()} hat been banned for ${localStorage.getItem("Reson")}`);
@@ -324,7 +319,7 @@
             if (countdownFrom === 0) {
                 countdownRunning = false;
                 
-                breakNumber();
+                breakNumber(true);
                 // Now that countdowns finised show the text Go
             }
             
@@ -427,21 +422,25 @@
         // Break number apart
         if (countdownRunning && countdownFrom > 0) {
             setTimeout(function() {
+                breakNumber(false);
                 countdown();
             }, countdownTimer);
         }
     }
     
-    function breakNumber() {
+    function breakNumber(end) {
         
             for (var i = 0; i < numberPixelCoordinates.length; i++) {
                 tweenDots(dots[i], '', 'space');	
             }
-        
-            // Build next number
-            setTimeout(function() {
-                handleKey();
-            }, countdownTimer);
+            
+            if(end){
+                // Build next number
+                setTimeout(function() {
+                    handleKey();
+                }, countdownTimer);
+            }
+            
     
     }
     
