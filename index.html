@@ -186,7 +186,7 @@
     //Twitch Chat Handler
     let BadWordList;
     if(localStorage.getItem("EnableChat") == "true"){
-        BadWordList = localStorage.getItem("BadWordList").split(",").map(v => v.toLowerCase());
+        BadWordList = localStorage.getItem("BadWordList").split(",").map(v => v.toLowerCase().trim());
     }
     client.on('message', (channel, tags, message, self) => {
         if(self) return;
@@ -203,9 +203,10 @@
             //Check if Message contains a bad word
             const MessageArray = message.split(" ");
             MessageArray.map(word => {
+                console.log(word.toLowerCase(), BadWordList.includes(word.toLowerCase().trim()))
                 if(BadWordList.includes(word.toLowerCase())){
                     SnackBar({
-                        message: `User ${tags["display-name"]} wrote bad word ${word}`,
+                        message: `User ${tags["display-name"]} wrote bad word ${word.toLowerCase().trim()}`,
                         width: "400px",
                         speed: Global.SnackBox_Timeout,
                         position: Global.SnackBox_Location,
