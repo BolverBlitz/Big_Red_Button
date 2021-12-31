@@ -184,11 +184,13 @@
     });
 
     //Twitch Chat Handler
-    const BadWordList = localStorage.getItem("BadWordList").split(",").map(v => v.toLowerCase());
+    let BadWordList;
+    if(localStorage.getItem("EnableChat") == "true"){
+        BadWordList = localStorage.getItem("BadWordList").split(",").map(v => v.toLowerCase());
+    }
     client.on('message', (channel, tags, message, self) => {
         if(self) return;
         if(localStorage.getItem("EnableChat") == "true"){
-            console.log(tags)
             if(localStorage.getItem("LogChat") == "true"){
                 SnackBar({
                     message: `${tags["display-name"]}: ${message}`,
