@@ -253,6 +253,9 @@
         setTimeout(press, 100);
 
         client.ban(localStorage.getItem("Channel"), $('#UserToBan').val(), localStorage.getItem("Reson")).then(() => {
+            if (localStorage.getItem("Brodcast") == "true") {
+                client.say(localStorage.getItem("Channel"), `The user ${$('#UserToBan').val()} hat been banned for ${localStorage.getItem("Reson")}`);
+            }
             setTimeout(unpress, 600);
         }).catch(function (err) {
             setTimeout(unpress, 600);
@@ -290,9 +293,6 @@
         if ($('#UserToBan').val() === "") {
             console.log("Likly unitentional press")
         } else {
-            if (localStorage.getItem("Brodcast") == "true") {
-                client.say(localStorage.getItem("Channel"), `The user ${$('#UserToBan').val()} hat been banned for ${localStorage.getItem("Reson")}`);
-            }
 
             //ResetCountDown
             countdownRunning = true;
