@@ -326,22 +326,22 @@
     */
     function init() {
     
-                // Init stage which will have numbers
-                numberStage = document.getElementById("canvas-number");
-                numberStageCtx = numberStage.getContext('2d');
-                // Set the canvas to width and height of the window
-                numberStage.width = numberStageWidth;
-                numberStage.height = numberStageHeight;
+        // Init stage which will have numbers
+        numberStage = document.getElementById("canvas-number");
+        numberStageCtx = numberStage.getContext('2d');
+        // Set the canvas to width and height of the window
+        numberStage.width = numberStageWidth;
+        numberStage.height = numberStageHeight;
                 
-                // Init Stage which will have dots
-                stage = document.getElementById("canvas-dots");
-                stageCtx = stage.getContext('2d');
-          stage.width = stageWidth;
-          stage.height = stageHeight;
+        // Init Stage which will have dots
+        stage = document.getElementById("canvas-dots");
+        stageCtx = stage.getContext('2d');
+        stage.width = stageWidth;
+        stage.height = stageHeight;
         
-                // Create offset so text appears in middle of screen
-               numberOffsetX = (stageWidth - numberStageWidth) / 2;
-                numberOffsetY = (stageHeight - numberStageHeight) / 2;
+        // Create offset so text appears in middle of screen
+        numberOffsetX = (stageWidth - numberStageWidth) / 2;
+        numberOffsetY = (stageHeight - numberStageHeight) / 2;
     }
     
     init();
