@@ -183,6 +183,39 @@
         });
     });
 
+    //Twitch Chat Handler
+    const BadWordList = localStorage.getItem("BadWordList").split(",").map(v => v.toLowerCase());
+    client.on('message', (channel, tags, message, self) => {
+        if(self) return;
+        if(localStorage.getItem("EnableChat") == "true"){
+            console.log(tags)
+            if(localStorage.getItem("LogChat") == "true"){
+                SnackBar({
+                    message: `${tags["display-name"]}: ${message}`,
+                    width: "400px",
+                    speed: Global.SnackBox_Timeout,
+                    position: Global.SnackBox_Location,
+                    status: "success",
+                });
+            }
+            //Check if Message contains a bad word
+            const MessageArray = message.split(" ");
+            MessageArray.map(word => {
+                if(BadWordList.includes(word.toLowerCase())){
+                    SnackBar({
+                        message: `User ${tags["display-name"]} wrote bad word ${word}`,
+                        width: "400px",
+                        speed: Global.SnackBox_Timeout,
+                        position: Global.SnackBox_Location,
+                        status: "warning",
+                    });
+                    //Autofill username that wrote bad word
+                    $('#UserToBan').val(tags["display-name"]);
+                }
+            })
+        }
+    });
+
     //Button handler
     const dance = document.getElementById("BRB");
 
@@ -530,7 +563,9 @@
     */
     function randomNumber(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
-    }</script>
+    }
+</script>
+
 <!-- Credits: -->
 <!-- https://codepen.io/dudleystorey/pen/zqgGn -->
 <!-- https://codepen.io/zFunx/pen/GWPQNz -->

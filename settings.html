@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <style>
+            html { height: 100%; }
+            body { background-color: #24282f; }
         /* Back Button */
         .button {
             background-color: #275EFE; /* Green */
@@ -32,7 +34,7 @@
             background: #f4f7f8 !important;
             margin: 10px auto !important;
             padding: 20px !important;
-            background: #f4f7f8 !important;
+            background: #464e5c !important;
             border-radius: 8px !important;
             font-family: Georgia, "Times New Roman", Times, serif !important;
         }
@@ -72,8 +74,8 @@
             box-sizing: border-box !important; 
             -webkit-box-sizing: border-box !important;
             -moz-box-sizing: border-box !important; 
-            background-color: #e8eeef !important;
-            color:#8a97a0 !important;
+            background-color: rgb(106, 116, 117) !important;
+            color:#ffffff !important;
             -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset !important;
             box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset !important;
             margin-bottom: 30px !important;
@@ -294,12 +296,34 @@
             <div id="result"></div>
             <div id="output"></div>
         </div>
+        <br> <br>
+        <div class="forms">
+            <form id="Chat">
+                <legend><span class="number">2</span>Twich Chat Guard</legend>
+                </select>   
+                <ul>
+                    <li>
+                        <input id="EnableChat" type="checkbox">
+                        <label for="Checkbox">Enable Chat</label>
+                    </li>
+                    <li>
+                        <input id="LogChat" type="checkbox">
+                        <label for="Checkbox">Log Chat</label>
+                    </li>
+                </ul>
+                <textarea id="BadWordList" placeholder="Write all bad words, seperated by komma"></textarea>
+                <input type="submit" value="Apply" />
+            </form>
+            <div id="Chatresult"></div>
+            <div id="Chatoutput"></div>
+        </div>
         </body>
     </div>
 </html>
 
 <script>
     sessionStorage.setItem("first_open", "false")
+    //Settings autofill from localstorage
     $('#Username').val(localStorage.getItem("Username"))
     $('#Channel').val(localStorage.getItem("Channel"))
     $('#Reson').val(localStorage.getItem("Reson"))
@@ -307,6 +331,12 @@
     $('#CoutDown').prop('checked', localStorage.getItem("CoutDown") == "true")
     $('#CoutDownTime').val(localStorage.getItem("CoutDownTime"))
 
+    //Chat autofill from localstorage
+    $('#EnableChat').prop('checked', localStorage.getItem("EnableChat") == "true")
+    $('#LogChat').prop('checked', localStorage.getItem("LogChat") == "true")
+    $('#BadWordList').val(localStorage.getItem("BadWordList"))
+
+    //Settings Submit Handler
     $("#Settings").submit(function(event) {
         event.preventDefault();
         const Output = [];
@@ -344,10 +374,30 @@
 
         localStorage.setItem("Brodcast", $('#Brodcast').is(':checked'))
         localStorage.setItem("CoutDown", $('#CoutDown').is(':checked'))
+    });
 
-        localStorage.setItem("CoutDownTime", $('#CoutDownTime').val())
+    //Chat Submit Handler
+    $("#Chat").submit(function(event) {
+        event.preventDefault();
+        const Output = [];
+        if($('#BadWordList').val() !== ""){
+            localStorage.setItem("BadWordList", $('#BadWordList').val())
+        }else{
+            Output.push("<p>BadWordList is empty</p>")
+        }
+        
+        if(Output.length > 0){
+            $('#Chatresult').html("<h1>Error:</h1>")
+            $('#Chatoutput').html(Output.join(""))
+        }else{
+            $('#Chatresult').html("<h1>Settings Saved</h1>")
+            $('#Chatoutput').html(Output.join(""))
+        }
+
+        localStorage.setItem("LogChat", $('#LogChat').is(':checked'))
+        localStorage.setItem("EnableChat", $('#EnableChat').is(':checked'))
     });
 </script>
 
 <!-- Credits: -->
-<!-- https://codepen.io/LucasArisi/pen/BgXrzX -->
+<!-- https://codepen.io/Thecoderboy/pen/mdrzGEz -->
