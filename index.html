@@ -1,125 +1,142 @@
 <html>
-    <head>
-        <title>BRB - Button</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script>
-        <script src="/scripts/tmi.min.js"></script>
-        <script src="/scripts/snackbar.js"></script>
-        <link rel="stylesheet" href="style/snackbar.css" />
-        <style>
-            html { height: 100%; }
-            body { min-height: 100%; margin: 0; display: flex; justify-content: center; align-items: center; background-color: #24282f; }
 
-            canvas {
-                position: absolute;
-                pointer-events: none;
-                z-index:1;
-                top: 0;
-                left: 0;
-            }
-            #canvas-number {
-                width: 680px;
-                height: 420px;
-            }
+<head>
+    <title>BRB - Button</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script>
+    <script src="/scripts/tmi.min.js"></script>
+    <script src="/scripts/snackbar.js"></script>
+    <link rel="stylesheet" href="style/snackbar.css" />
+    <style>
+        html {
+            height: 100%;
+        }
 
-            /* Button */
-            button { 
-                position: relative;
-                z-index:3;
-                border-radius: 50%; 
-                width: 300px;
-                height: 300px;
-                border: none;
-                color: white;
-                font-family: Avenir, Arial, sans-serif;
-                font-weight: 900;
-                font-size: 3.5rem;
-                background: rgba(255,0,0,1);
-                text-shadow: 0 5px 1px rgba(122,17,8,.8);
-                box-shadow: 0 8px 0 rgb(183,9,0), 
-                    0 15px 20px rgba(0,0,0,.35);
-                text-transform: uppercase;
-                transition: .4s all ease-in;
-                outline: none; 
-                cursor: pointer;
-                text-align: center;
-            }
+        body {
+            min-height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #24282f;
+        }
 
-            button span { position: relative; }
-                /* fix for IE 11 (and IE8+, although the earlier versions are harder to address) stupidly moving the inner button text on click */
-            .pressed { 
-                padding-top: 3px;
-                transform: translateY(4px);
-                box-shadow: 0 4px 0 rgb(183,0,0),
-                0 8px 6px rgba(0,0,0,.45);
-            }
+        canvas {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            top: 0;
+            left: 0;
+        }
 
-            /* Input Field */
-            input[type=text]{
-                width:80%;
-                z-index:4;
-                text-align: center;
-                position: relative;
-                background: rgb(253, 96, 96);
-                border:2px solid rgb(155, 0, 0);
-                border-radius:4px;
-                margin:8px 0;
-                outline:none;
-                padding:8px;
-                box-sizing:border-box;
-                transition:.3s;
-            }
-            
-            input[type=text]:focus{
-                border-color:dodgerBlue;
-                box-shadow:0 0 8px 0 dodgerBlue;
-            }
-        </style>
-    </head>
-    <body>
-        <div>
-            <canvas id="canvas-number"></canvas>
-            <canvas id="canvas-dots"></canvas>
-            <button id="BRB" type="button">BAN!<input type="text" id="UserToBan" placeholder="Username"></button>
-            <!-- <input type="text" id="UserToBan" placeholder="Username"> -->
-        </div>
-    </body>
+        #canvas-number {
+            width: 680px;
+            height: 420px;
+        }
+
+        /* Button */
+        button {
+            position: relative;
+            z-index: 3;
+            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            border: none;
+            color: white;
+            font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            font-size: 3.5rem;
+            background: rgba(255, 0, 0, 1);
+            text-shadow: 0 5px 1px rgba(122, 17, 8, .8);
+            box-shadow: 0 8px 0 rgb(183, 9, 0),
+                0 15px 20px rgba(0, 0, 0, .35);
+            text-transform: uppercase;
+            transition: .4s all ease-in;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        button span {
+            position: relative;
+        }
+
+        /* fix for IE 11 (and IE8+, although the earlier versions are harder to address) stupidly moving the inner button text on click */
+        .pressed {
+            padding-top: 3px;
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 rgb(183, 0, 0),
+                0 8px 6px rgba(0, 0, 0, .45);
+        }
+
+        /* Input Field */
+        input[type=text] {
+            width: 80%;
+            z-index: 4;
+            text-align: center;
+            position: relative;
+            background: rgb(253, 96, 96);
+            border: 2px solid rgb(155, 0, 0);
+            border-radius: 4px;
+            margin: 8px 0;
+            outline: none;
+            padding: 8px;
+            box-sizing: border-box;
+            transition: .3s;
+        }
+
+        input[type=text]:focus {
+            border-color: dodgerBlue;
+            box-shadow: 0 0 8px 0 dodgerBlue;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <canvas id="canvas-number"></canvas>
+        <canvas id="canvas-dots"></canvas>
+        <button id="BRB" type="button">BAN!<input type="text" id="UserToBan" placeholder="Username"></button>
+        <!-- <input type="text" id="UserToBan" placeholder="Username"> -->
+    </div>
+</body>
+
 </html>
 
 <script>
     const Global = {
         SnackBox_Timeout: 400,
         SnackBox_Location: 'tr',
-    }; 	
+    };
     // Get global locations
     const getUrl = window.location;
     const baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
-    
+
     const urlParams = decodeURI(getUrl.hash)
         .replace('#', '')
         .split('&')
         .map(param => param.split('='))
-        .reduce((values, [ key, value ]) => {
-            values[ key ] = value
+        .reduce((values, [key, value]) => {
+            values[key] = value
             return values
-    }, {})
+        }, {})
 
     //Check Twich OAuth Token
-    if ('access_token' in urlParams){
+    if ('access_token' in urlParams) {
         sessionStorage.setItem("access_token", urlParams.access_token)
         window.location.replace(`${baseUrl}`);
-    }else{
-        if(sessionStorage.getItem("access_token") === null) {
+    } else {
+        if (sessionStorage.getItem("access_token") === null) {
             sessionStorage.setItem("first_open", "true")
-	        window.location.replace(`${baseUrl}login.html`);
+            window.location.replace(`${baseUrl}login.html`);
         }
     }
 
     //Register Keypress to go to settings
-    $(document).on('keypress',function(e) {
-        if(e.which == 115 || e.which == 83) {
+    $(document).on('keypress', function (e) {
+        if (e.which == 115 || e.which == 83) {
             window.location.replace(`${baseUrl}settings.html`);
         }
     });
@@ -130,39 +147,39 @@
     input.select();
 
     //Check if user has Settings
-    
-    if(localStorage.getItem("Username") === null && localStorage.getItem("Channel") === null && localStorage.getItem("Reson") === null && localStorage.getItem("CoutDownTime") === null) {
+
+    if (localStorage.getItem("Username") === null && localStorage.getItem("Channel") === null && localStorage.getItem("Reson") === null && localStorage.getItem("CoutDownTime") === null) {
         sessionStorage.setItem("first_open", "false")
         SnackBar({
             message: `You need to enter settings, press "S" to go to settings`,
             width: "400px",
-            speed: Global.SnackBox_Timeout*2,
+            speed: Global.SnackBox_Timeout * 2,
             position: Global.SnackBox_Location,
             status: "danger",
         });
     }
 
     //Tell user about the settings page
-    if(sessionStorage.getItem("first_open") == "true"){
+    if (sessionStorage.getItem("first_open") == "true") {
         SnackBar({
             message: `To get to the settings, press "S"`,
             width: "400px",
-            speed: Global.SnackBox_Timeout*2,
+            speed: Global.SnackBox_Timeout * 2,
             position: Global.SnackBox_Location,
             status: "info",
         });
     }
 
     // Twitch API Initialization
-    const client = new tmi.Client({ 
+    const client = new tmi.Client({
         connection: {
             secure: true,
             reconnect: true
         },
         identity: {
-		    username: localStorage.getItem("Username"),
-		    password: `oauth:${sessionStorage.getItem("access_token")}`
-	    },
+            username: localStorage.getItem("Username"),
+            password: `oauth:${sessionStorage.getItem("access_token")}`
+        },
         channels: [localStorage.getItem("Channel")]
     });
     client.connect().then(() => {
@@ -185,13 +202,13 @@
 
     //Twitch Chat Handler
     let BadWordList;
-    if(localStorage.getItem("EnableChat") == "true"){
+    if (localStorage.getItem("EnableChat") == "true") {
         BadWordList = localStorage.getItem("BadWordList").split(",").map(v => v.toLowerCase().trim());
     }
     client.on('message', (channel, tags, message, self) => {
-        if(self) return;
-        if(localStorage.getItem("EnableChat") == "true"){
-            if(localStorage.getItem("LogChat") == "true"){
+        if (self) return;
+        if (localStorage.getItem("EnableChat") == "true") {
+            if (localStorage.getItem("LogChat") == "true") {
                 SnackBar({
                     message: `${tags["display-name"]}: ${message}`,
                     width: "400px",
@@ -204,7 +221,7 @@
             const MessageArray = message.split(" ");
             MessageArray.map(word => {
                 console.log(word.toLowerCase(), BadWordList.includes(word.toLowerCase().trim()))
-                if(BadWordList.includes(word.toLowerCase())){
+                if (BadWordList.includes(word.toLowerCase())) {
                     SnackBar({
                         message: `User ${tags["display-name"]} wrote bad word ${word.toLowerCase().trim()}`,
                         width: "400px",
@@ -222,24 +239,24 @@
     //Button handler
     const dance = document.getElementById("BRB");
 
-    function press() { 
+    function press() {
         dance.classList.add("pressed");
     }
 
-    function unpress() { 
-        dance.classList.remove("pressed"); 
+    function unpress() {
+        dance.classList.remove("pressed");
     }
 
     function handleKey() {
-        $('#BRB').css({'z-index': '3', 'opacity': '1'});
-        $('#canvas-dots').css({'z-index': '1'});
+        $('#BRB').css({ 'z-index': '3', 'opacity': '1' });
+        $('#canvas-dots').css({ 'z-index': '1' });
         setTimeout(press, 100);
-        
+
         client.ban(localStorage.getItem("Channel"), $('#UserToBan').val(), localStorage.getItem("Reson")).then(() => {
             setTimeout(unpress, 600);
-        }).catch(function(err) {
+        }).catch(function (err) {
             setTimeout(unpress, 600);
-            if(err === "already_banned"){
+            if (err === "already_banned") {
                 SnackBar({
                     message: `${$('#UserToBan').val()} is already banned!`,
                     width: "400px",
@@ -247,7 +264,7 @@
                     position: Global.SnackBox_Location,
                     status: "error",
                 });
-            }else if(err === "invalid_user"){
+            } else if (err === "invalid_user") {
                 SnackBar({
                     message: `${$('#UserToBan').val()} is not a valid user!`,
                     width: "400px",
@@ -255,25 +272,25 @@
                     position: Global.SnackBox_Location,
                     status: "error",
                 });
-            }else if(err === "No response from Twitch."){
+            } else if (err === "No response from Twitch.") {
                 SnackBar({
                     message: `You need to enter settings, press "S" to go to settings`,
                     width: "400px",
-                    speed: Global.SnackBox_Timeout*2,
+                    speed: Global.SnackBox_Timeout * 2,
                     position: Global.SnackBox_Location,
                     status: "danger",
                 });
-            }else{
+            } else {
                 console.log(err)
             }
         });
     }
 
     function runButton() {
-        if($('#UserToBan').val() === ""){
+        if ($('#UserToBan').val() === "") {
             console.log("Likly unitentional press")
-        }else{
-            if(localStorage.getItem("Brodcast") == "true"){
+        } else {
+            if (localStorage.getItem("Brodcast") == "true") {
                 client.say(localStorage.getItem("Channel"), `The user ${$('#UserToBan').val()} hat been banned for ${localStorage.getItem("Reson")}`);
             }
 
@@ -281,271 +298,271 @@
             countdownRunning = true;
             countdownFrom = localStorage.getItem("CoutDownTime");
 
-            if(localStorage.getItem("CoutDown") == "true"){
-                $('#BRB').css({'z-index': '1', 'opacity': '0.1'});
-                $('#canvas-dots').css({'z-index': '3'});
+            if (localStorage.getItem("CoutDown") == "true") {
+                $('#BRB').css({ 'z-index': '1', 'opacity': '0.1' });
+                $('#canvas-dots').css({ 'z-index': '3' });
                 countdown()
-            }else{
+            } else {
                 handleKey();
             }
         }
-        
+
     }
 
-    dance.addEventListener('click', function(event) { 
-        runButton(); 
+    dance.addEventListener('click', function (event) {
+        runButton();
     });
 
-/*
-    Desc: Define inital variables
-    */
+    /*
+        Desc: Define inital variables
+        */
     var numberStage,
-            numberStageCtx,
-            numberStageWidth = 680,
-            numberStageHeight = 420,
-            numberOffsetX,
-            numberOffsetY,
-            
-            stage,
-            stageCtx,
-            stageWidth   = window.innerWidth,
-            stageHeight  = window.innerHeight,
-            stageCenterX = stageWidth/2,
-            stageCenterY = stageHeight/2,
-            
-            countdownFrom = localStorage.getItem("CoutDownTime"),
-            countdownTimer = 2400,
-            countdownRunning = true,
-            
-            number,
-            dots = [],
-            numberPixelCoordinates,
-            circleRadius = 2,
-            colors = ['61, 207, 236', '255, 244, 174', '255, 211, 218', '151, 211, 226'];
-    
-    
+        numberStageCtx,
+        numberStageWidth = 680,
+        numberStageHeight = 420,
+        numberOffsetX,
+        numberOffsetY,
+
+        stage,
+        stageCtx,
+        stageWidth = window.innerWidth,
+        stageHeight = window.innerHeight,
+        stageCenterX = stageWidth / 2,
+        stageCenterY = stageHeight / 2,
+
+        countdownFrom = localStorage.getItem("CoutDownTime"),
+        countdownTimer = 2400,
+        countdownRunning = true,
+
+        number,
+        dots = [],
+        numberPixelCoordinates,
+        circleRadius = 2,
+        colors = ['61, 207, 236', '255, 244, 174', '255, 211, 218', '151, 211, 226'];
+
+
     /*
     Desc: Init canvases & Number text
     */
     function init() {
-    
+
         // Init stage which will have numbers
         numberStage = document.getElementById("canvas-number");
         numberStageCtx = numberStage.getContext('2d');
         // Set the canvas to width and height of the window
         numberStage.width = numberStageWidth;
         numberStage.height = numberStageHeight;
-                
+
         // Init Stage which will have dots
         stage = document.getElementById("canvas-dots");
         stageCtx = stage.getContext('2d');
         stage.width = stageWidth;
         stage.height = stageHeight;
-        
+
         // Create offset so text appears in middle of screen
         numberOffsetX = (stageWidth - numberStageWidth) / 2;
         numberOffsetY = (stageHeight - numberStageHeight) / 2;
     }
-    
+
     init();
-    
-    
+
+
     /*
     Desc: Dot object
     */
     function Dot(x, y, color, alpha) {
-        
+
         var _this = this;
-        
+
         _this.x = x;
         _this.y = y;
         _this.color = color;
         _this.alpha = alpha;
-        
-        this.draw = function() {
+
+        this.draw = function () {
             stageCtx.beginPath();
-            stageCtx.arc(_this.x, _this.y, circleRadius, 0, 2*Math.PI, false);
+            stageCtx.arc(_this.x, _this.y, circleRadius, 0, 2 * Math.PI, false);
             stageCtx.fillStyle = 'rgba(' + _this.color + ', ' + _this.alpha + ')';
             stageCtx.fill();
         }
-        
+
     }
-    
+
     /*
     Desc: Create a certain amount of dots
     */
     for (var i = 0; i < 2240; i++) {
-        
+
         // Create a dot
         var dot = new Dot(randomNumber(0, stageWidth), randomNumber(0, stageHeight), colors[randomNumber(1, colors.length)], .3);
-        
+
         // Push to into an array of dots
         dots.push(dot);
-        
+
         // Animate dots
-        tweenDots(dot, '', 'space');	
+        tweenDots(dot, '', 'space');
     }
-    
-    
+
+
     /*
     Desc: Countdown
     */
     function countdown() {
-            // Send number to be drawn
-            drawNumber(countdownFrom.toString());
-            
-        
-            // When we hit zero stop countdown
-            if (countdownFrom === 0) {
-                countdownRunning = false;
-                
-                breakNumber(true);
-                // Now that countdowns finised show the text Go
-            }
-            
-            // Decrement number down
-            countdownFrom--;
-    
+        // Send number to be drawn
+        drawNumber(countdownFrom.toString());
+
+
+        // When we hit zero stop countdown
+        if (countdownFrom === 0) {
+            countdownRunning = false;
+
+            breakNumber(true);
+            // Now that countdowns finised show the text Go
+        }
+
+        // Decrement number down
+        countdownFrom--;
+
     }
 
-    
+
     /*
     Desc: Redraw loops
     */
     function loop() {
-        
-        stageCtx.clearRect(0,0,stageWidth, stageHeight);
-          
-        for(var i = 0; i < dots.length; i++) {
-           dots[i].draw(stageCtx);
-      }
-         
+
+        stageCtx.clearRect(0, 0, stageWidth, stageHeight);
+
+        for (var i = 0; i < dots.length; i++) {
+            dots[i].draw(stageCtx);
+        }
+
         requestAnimationFrame(loop);
     }
-    
+
     loop();
-    
-    
+
+
     /*
     Desc: Draw number
     */
     function drawNumber(num) {
-        
-            // Create a number on a seperate canvas
-            // Use a seperate canvas thats smaller so we have less data to loop over when using getImagedata()
-            
-             //	Clear stage of previous numbers
-             numberStageCtx.clearRect(0,0,numberStageWidth, numberStageHeight);
-        
-             numberStageCtx.fillStyle = "#24282f";
-           numberStageCtx.textAlign = 'center';
-           numberStageCtx.font = "bold 418px Lato";
-           numberStageCtx.fillText(num, 340, 400);
-        
-             var ctx = document.getElementById('canvas-number').getContext('2d');
-                
-                // getImageData(x, y, width, height)
-                // note: is an exspenisve function, so make sure canvas is small as possible for what you grab
-                // Returns 1 Dimensional array of pixel color value chanels
-                // Red, blue, green, alpha chanel of single pixel
-            // First chanel is red
-                var imageData = ctx.getImageData(0,0,numberStageWidth,numberStageHeight).data;
-    
-                // Clear number coordinated
-                numberPixelCoordinates = [];
-    
-                // i is equal to total image data(eg: 480,000)
-            // run while i is greater or equal to 0
-               // every time we run it minus 4 from i. Do this because each pixel has 4 chanels & we are only interested in individual pixels 
-                for (var i = imageData.length; i >= 0; i -= 4) {
-    
-                            // If not an empty pixel
-                            if (imageData[i] !== 0) {
-                                
-                                    // i represents the position in the array a red pixel was found
-    
-                                    // (i / 4 ) and percentage by width of canvas
-                                  // Need to divide i by 4 because it has 4 values and you need its orginal position
-                                  // Then you need to percentage it by the width(600) because each row contains 600 pixels and you need its relative position in that row
-                                    var x = (i / 4) % numberStageWidth;
-                                
-                                    // (i divide by width) then divide by 4
-                                    // Divide by width(600) first so you get the rows of pixels that make up the canvas. Then divide by 4 to get its postion within the row
-                                     var y = Math.floor(Math.floor(i/numberStageWidth)/4);
-    
-                                    // If position exists and number is divisble by circle plus a pixel gap then add cordinates to array. So circles do not overlap
-                                     if((x && x%(circleRadius * 2 + 3) == 0) && (y && y%(circleRadius * 2 + 3) == 0)) {																															
-                                            // Push object to numberPixels array with x and y coordinates
-                                            numberPixelCoordinates.push({x: x, y: y});
-                                        
-                        }
-    
-                            }
+
+        // Create a number on a seperate canvas
+        // Use a seperate canvas thats smaller so we have less data to loop over when using getImagedata()
+
+        //	Clear stage of previous numbers
+        numberStageCtx.clearRect(0, 0, numberStageWidth, numberStageHeight);
+
+        numberStageCtx.fillStyle = "#24282f";
+        numberStageCtx.textAlign = 'center';
+        numberStageCtx.font = "bold 418px Lato";
+        numberStageCtx.fillText(num, 340, 400);
+
+        var ctx = document.getElementById('canvas-number').getContext('2d');
+
+        // getImageData(x, y, width, height)
+        // note: is an exspenisve function, so make sure canvas is small as possible for what you grab
+        // Returns 1 Dimensional array of pixel color value chanels
+        // Red, blue, green, alpha chanel of single pixel
+        // First chanel is red
+        var imageData = ctx.getImageData(0, 0, numberStageWidth, numberStageHeight).data;
+
+        // Clear number coordinated
+        numberPixelCoordinates = [];
+
+        // i is equal to total image data(eg: 480,000)
+        // run while i is greater or equal to 0
+        // every time we run it minus 4 from i. Do this because each pixel has 4 chanels & we are only interested in individual pixels 
+        for (var i = imageData.length; i >= 0; i -= 4) {
+
+            // If not an empty pixel
+            if (imageData[i] !== 0) {
+
+                // i represents the position in the array a red pixel was found
+
+                // (i / 4 ) and percentage by width of canvas
+                // Need to divide i by 4 because it has 4 values and you need its orginal position
+                // Then you need to percentage it by the width(600) because each row contains 600 pixels and you need its relative position in that row
+                var x = (i / 4) % numberStageWidth;
+
+                // (i divide by width) then divide by 4
+                // Divide by width(600) first so you get the rows of pixels that make up the canvas. Then divide by 4 to get its postion within the row
+                var y = Math.floor(Math.floor(i / numberStageWidth) / 4);
+
+                // If position exists and number is divisble by circle plus a pixel gap then add cordinates to array. So circles do not overlap
+                if ((x && x % (circleRadius * 2 + 3) == 0) && (y && y % (circleRadius * 2 + 3) == 0)) {
+                    // Push object to numberPixels array with x and y coordinates
+                    numberPixelCoordinates.push({ x: x, y: y });
+
                 }
-        
-                formNumber();
-    
+
+            }
+        }
+
+        formNumber();
+
     }
-    
-    
+
+
     /*
     Desc: Form number
     */
     function formNumber() {
-        
+
         for (var i = 0; i < numberPixelCoordinates.length; i++) {
-            
+
             // Loop out as many coordionates as we need & pass dots in to animate
-              tweenDots(dots[i], numberPixelCoordinates[i], '');
+            tweenDots(dots[i], numberPixelCoordinates[i], '');
         }
-        
+
         // Break number apart
         if (countdownRunning && countdownFrom > 0) {
-            setTimeout(function() {
+            setTimeout(function () {
                 breakNumber(false);
                 countdown();
             }, countdownTimer);
         }
     }
-    
+
     function breakNumber(end) {
-        
-            for (var i = 0; i < numberPixelCoordinates.length; i++) {
-                tweenDots(dots[i], '', 'space');	
-            }
-            
-            if(end){
-                // Build next number
-                setTimeout(function() {
-                    handleKey();
-                }, countdownTimer);
-            }
-            
-    
+
+        for (var i = 0; i < numberPixelCoordinates.length; i++) {
+            tweenDots(dots[i], '', 'space');
+        }
+
+        if (end) {
+            // Build next number
+            setTimeout(function () {
+                handleKey();
+            }, countdownTimer);
+        }
+
+
     }
-    
-    
+
+
     /*
     Desc: Animate dots
     */
     function tweenDots(dot, pos, type) {
-            
+
         // Move dots around canvas randomly
         if (type === 'space') {
-                    
+
             // Tween dot to coordinate to form number
             TweenMax.to(dot, (2 + Math.round(Math.random() * 100) / 100), {
-                x: randomNumber(0, stageWidth),  
+                x: randomNumber(0, stageWidth),
                 y: randomNumber(0, stageHeight),
                 alpha: 0.3,
                 ease: Cubic.easeInOut,
-                onComplete: function() {
+                onComplete: function () {
                     tweenDots(dot, '', 'space');
                 }
             });
-            
+
         } else {
-        
+
             // Tween dot to coordinate to form number
             TweenMax.to(dot, (1 + Math.round(Math.random() * 100) / 100), {
                 x: (pos.x + numberOffsetX),
@@ -553,14 +570,14 @@
                 delay: 0,
                 alpha: 1,
                 ease: Cubic.easeInOut,
-                onComplete: function() {
+                onComplete: function () {
                 }
             });
-            
+
         }
     }
-    
-    
+
+
     /*
     Desc: Get a random number
     */
