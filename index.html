@@ -109,6 +109,7 @@
     const Global = {
         SnackBox_Timeout: 400,
         SnackBox_Location: 'tr',
+        isHidden: false
     };
     // Get global locations
     const getUrl = window.location;
@@ -136,8 +137,21 @@
 
     //Register Keypress to go to settings
     $(document).on('keypress', function (e) {
+        console.log(e.which)
         if (e.which == 115 || e.which == 83) {
             window.location.replace(`${baseUrl}settings.html`);
+            //killdots();
+        }
+        if (e.which == 104 || e.which == 72) {
+            if (Global.isHidden) {
+                hideButton(false); //hide button on h key
+                initDots();
+                Global.isHidden = false;
+            } else {
+                hideButton(true); //unhide button on h key
+                killdots();
+                Global.isHidden = true;
+            }
         }
     });
 
@@ -153,7 +167,8 @@
         SnackBar({
             message: `You need to enter settings, press "S" to go to settings`,
             width: "400px",
-            speed: Global.SnackBox_Timeout * 2,
+            speed: Global.SnackBox_Timeout,
+            timeout: false,
             position: Global.SnackBox_Location,
             status: "danger",
         });
@@ -231,6 +246,14 @@
                     });
                     //Autofill username that wrote bad word
                     $('#UserToBan').val(tags["display-name"]);
+                    //UnhideButton if Hidden and enabled
+                    if (localStorage.getItem("AHiddenMode") == "true") {
+                        if (Global.isHidden) {
+                            hideButton(false); //hide button on h key
+                            initDots();
+                            Global.isHidden = false;
+                        }
+                    }
                 }
             })
         }
@@ -238,6 +261,14 @@
 
     //Button handler
     const dance = document.getElementById("BRB");
+
+    function hideButton(bool) {
+        if (bool) {
+            $('#BRB').css({ 'z-index': '3', 'opacity': '0' });
+        } else {
+            $('#BRB').css({ 'z-index': '3', 'opacity': '1' });
+        }
+    }
 
     function press() {
         dance.classList.add("pressed");
@@ -257,8 +288,24 @@
                 client.say(localStorage.getItem("Channel"), `The user ${$('#UserToBan').val()} has been banned for ${localStorage.getItem("Reson")}`);
             }
             setTimeout(unpress, 600);
+            //Hide Elements after ban, if enabled (HiddenMode)
+            if (localStorage.getItem("HiddenMode") == "true") {
+                setTimeout(() => {
+                    hideButton(true); //unhide button on h key
+                    killdots();
+                    Global.isHidden = true;
+                }, 2000);
+            }
+
         }).catch(function (err) {
             setTimeout(unpress, 600);
+            if (localStorage.getItem("HiddenMode") == "true") {
+                setTimeout(() => {
+                    hideButton(true); //unhide button on h key
+                    killdots();
+                    Global.isHidden = true;
+                }, 2000);
+            }
             if (err === "already_banned") {
                 SnackBar({
                     message: `${$('#UserToBan').val()} is already banned!`,
@@ -364,8 +411,12 @@
         numberOffsetY = (stageHeight - numberStageHeight) / 2;
     }
 
-    init();
+    function killdots() {
+        dots = [];
+    }
 
+    init(); //Init Canvas
+    initDots() //Create dots
 
     /*
     Desc: Dot object
@@ -391,17 +442,20 @@
     /*
     Desc: Create a certain amount of dots
     */
-    for (var i = 0; i < 2240; i++) {
+    function initDots() {
+        for (var i = 0; i < 2240; i++) {
 
-        // Create a dot
-        var dot = new Dot(randomNumber(0, stageWidth), randomNumber(0, stageHeight), colors[randomNumber(1, colors.length)], .3);
+            // Create a dot
+            var dot = new Dot(randomNumber(0, stageWidth), randomNumber(0, stageHeight), colors[randomNumber(1, colors.length)], .3);
 
-        // Push to into an array of dots
-        dots.push(dot);
+            // Push to into an array of dots
+            dots.push(dot);
 
-        // Animate dots
-        tweenDots(dot, '', 'space');
+            // Animate dots
+            tweenDots(dot, '', 'space');
+        }
     }
+
 
 
     /*

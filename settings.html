@@ -325,6 +325,10 @@
                             <input id="CoutDown" type="checkbox">
                             <label for="Checkbox">Coutdown</label>
                         </li>
+                        <li>
+                            <input id="HiddenMode" type="checkbox">
+                            <label for="Checkbox">Stream hidden mode</label>
+                        </li>
                     </ul>
                     <input type="number" id="CoutDownTime" placeholder="Countdown in seconds">
                     <input type="submit" value="Apply" />
@@ -346,6 +350,10 @@
                             <input id="LogChat" type="checkbox">
                             <label for="Checkbox">Log Chat</label>
                         </li>
+                        <li>
+                            <input id="AutoHiddenMode" type="checkbox">
+                            <label for="Checkbox">Auto toggle hidden mode</label>
+                        </li>
                     </ul>
                     <textarea id="BadWordList" placeholder="Write all bad words, seperated by komma"></textarea>
                     <input type="submit" value="Apply" />
@@ -366,11 +374,13 @@
     $('#Reson').val(localStorage.getItem("Reson"))
     $('#Brodcast').prop('checked', localStorage.getItem("Brodcast") == "true")
     $('#CoutDown').prop('checked', localStorage.getItem("CoutDown") == "true")
+    $('#HiddenMode').prop('checked', localStorage.getItem("HiddenMode") == "true")
     $('#CoutDownTime').val(localStorage.getItem("CoutDownTime"))
 
     //Chat autofill from localstorage
     $('#EnableChat').prop('checked', localStorage.getItem("EnableChat") == "true")
     $('#LogChat').prop('checked', localStorage.getItem("LogChat") == "true")
+    $('#AutoHiddenMode').prop('checked', localStorage.getItem("AHiddenMode") == "true")
     $('#BadWordList').val(localStorage.getItem("BadWordList"))
 
     //Settings Submit Handler
@@ -411,6 +421,7 @@
 
         localStorage.setItem("Brodcast", $('#Brodcast').is(':checked'))
         localStorage.setItem("CoutDown", $('#CoutDown').is(':checked'))
+        localStorage.setItem("HiddenMode", $('#HiddenMode').is(':checked'))
     });
 
     //Chat Submit Handler
@@ -433,6 +444,7 @@
 
         localStorage.setItem("LogChat", $('#LogChat').is(':checked'))
         localStorage.setItem("EnableChat", $('#EnableChat').is(':checked'))
+        localStorage.setItem("AHiddenMode", $('#AutoHiddenMode').is(':checked'))
     });
 </script>
 
