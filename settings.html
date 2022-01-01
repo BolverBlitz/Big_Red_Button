@@ -368,6 +368,8 @@
 
 <script>
     sessionStorage.setItem("first_open", "false")
+    //Define RegEx
+    const URL_Regex = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi);
     //Settings autofill from localstorage
     $('#Username').val(localStorage.getItem("Username"))
     $('#Channel').val(localStorage.getItem("Channel"))
@@ -394,7 +396,11 @@
         }
 
         if ($('#Channel').val() !== "") {
-            localStorage.setItem("Channel", $('#Channel').val())
+            if($('#Channel').val().match(URL_Regex)){
+                Output.push("<p>Channel must be a username, not URL</p>")
+            }else{
+                localStorage.setItem("Channel", $('#Channel').val())
+            }
         } else {
             Output.push("<p>Channel is empty</p>")
         }
