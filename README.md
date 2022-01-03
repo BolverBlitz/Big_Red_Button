@@ -28,6 +28,9 @@ You can apply a ***chroma key*** effect on color ***'#24282f'*** to use this as 
 If you use this as overlay, you should enable ***"Auto toggle hidden mode"*** and ***"Stream hidden mode"*** on!  
 If you dislike the automated toggle, you can ALWAYS use the H key to toggle it :D  
 
+## Security
+This application dosn´t store ***AND*** of your data on the server its served by, everything runs directly in your browser :D
+
 ## Setup for Hosting
 
 You can run this tool on ***any webserver*** without any setup.  
