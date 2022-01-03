@@ -1,7 +1,7 @@
 # Big_Red_Button
 You can use my hosted version here: [Big-Red-Button](https://brb.ebg.pw)
  
-A Twitch tool to ***ban*** users from your chat, with automatic ***dedection of bad word***s, with a nice ***big red butto***n and if you want a countdown.
+A Twitch tool to ***ban*** users from your chat, with automatic ***dedection of bad word***s, with a nice ***big red butto***n and if you want, a fancy countdown.
 
 ## Keys
 ***S***: Will show the settings page  
