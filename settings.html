@@ -329,6 +329,10 @@
                             <input id="HiddenMode" type="checkbox">
                             <label for="Checkbox">Stream hidden mode</label>
                         </li>
+                        <li>
+                            <input id="TimeoutWhileBan" type="checkbox">
+                            <label for="Checkbox">Timeout user while ban countdown</label>
+                        </li>
                     </ul>
                     <input type="number" id="CoutDownTime" placeholder="Countdown in seconds">
                     <input type="submit" value="Apply" />
@@ -349,6 +353,10 @@
                         <li>
                             <input id="LogChat" type="checkbox">
                             <label for="Checkbox">Log Chat</label>
+                        </li>
+                        <li>
+                            <input id="DelBadMsg" type="checkbox">
+                            <label for="Checkbox">Delete messages with bad words</label>
                         </li>
                         <li>
                             <input id="AutoHiddenMode" type="checkbox">
@@ -377,12 +385,14 @@
     $('#Brodcast').prop('checked', localStorage.getItem("Brodcast") == "true")
     $('#CoutDown').prop('checked', localStorage.getItem("CoutDown") == "true")
     $('#HiddenMode').prop('checked', localStorage.getItem("HiddenMode") == "true")
+    $('#TimeoutWhileBan').prop('checked', localStorage.getItem("TimeoutWhileBan") == "true")
     $('#CoutDownTime').val(localStorage.getItem("CoutDownTime"))
 
     //Chat autofill from localstorage
     $('#EnableChat').prop('checked', localStorage.getItem("EnableChat") == "true")
     $('#LogChat').prop('checked', localStorage.getItem("LogChat") == "true")
     $('#AutoHiddenMode').prop('checked', localStorage.getItem("AHiddenMode") == "true")
+    $('#DelBadMsg').prop('checked', localStorage.getItem("DelBadMsg") == "true")
     $('#BadWordList').val(localStorage.getItem("BadWordList"))
 
     //Settings Submit Handler
@@ -428,6 +438,7 @@
         localStorage.setItem("Brodcast", $('#Brodcast').is(':checked'))
         localStorage.setItem("CoutDown", $('#CoutDown').is(':checked'))
         localStorage.setItem("HiddenMode", $('#HiddenMode').is(':checked'))
+        localStorage.setItem("TimeoutWhileBan", $('#TimeoutWhileBan').is(':checked'))
     });
 
     //Chat Submit Handler
@@ -451,6 +462,7 @@
         localStorage.setItem("LogChat", $('#LogChat').is(':checked'))
         localStorage.setItem("EnableChat", $('#EnableChat').is(':checked'))
         localStorage.setItem("AHiddenMode", $('#AutoHiddenMode').is(':checked'))
+        localStorage.setItem("DelBadMsg", $('#DelBadMsg').is(':checked'))
     });
 </script>
 

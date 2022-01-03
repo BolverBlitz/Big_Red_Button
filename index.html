@@ -137,7 +137,6 @@
 
     //Register Keypress to go to settings
     $(document).on('keypress', function (e) {
-        console.log(e.which)
         if (e.which == 115 || e.which == 83) {
             window.location.replace(`${baseUrl}settings.html`);
             //killdots();
@@ -235,7 +234,6 @@
             //Check if Message contains a bad word
             const MessageArray = message.split(" ");
             MessageArray.map(word => {
-                console.log(word.toLowerCase(), BadWordList.includes(word.toLowerCase().trim()))
                 if (BadWordList.includes(word.toLowerCase())) {
                     SnackBar({
                         message: `User ${tags["display-name"]} wrote bad word ${word.toLowerCase().trim()}`,
@@ -244,6 +242,11 @@
                         position: Global.SnackBox_Location,
                         status: "warning",
                     });
+                    //Delete bad Messages if enabled
+                    if(localStorage.getItem("DelBadMsg") == "true"){
+                        console.log(tags)
+                        client.deletemessage(localStorage.getItem("Channel"), tags["id"]);
+                    }
                     //Autofill username that wrote bad word
                     $('#UserToBan').val(tags["display-name"]);
                     //UnhideButton if Hidden and enabled
@@ -346,6 +349,10 @@
             countdownFrom = localStorage.getItem("CoutDownTime");
 
             if (localStorage.getItem("CoutDown") == "true") {
+                if(localStorage.getItem("TimeoutWhileBan") == "true"){
+                    //Handling is useless since twich dosn´t respond with usefull information
+                    client.timeout(localStorage.getItem("Channel"), $('#UserToBan').val(), Number(localStorage.getItem("CoutDownTime"))*4, localStorage.getItem("Reson"))
+                }
                 $('#BRB').css({ 'z-index': '1', 'opacity': '0.1' });
                 $('#canvas-dots').css({ 'z-index': '3' });
                 countdown()
