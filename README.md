@@ -23,7 +23,7 @@ A Twitch tool to ***ban*** users from your chat, with automatic ***dedection of 
 ***Auto toggle hidden mode:*** Toggle visability automaticly if bad word was dedected.  
 
 ## Setup for Streaming
-For ***OB***S you can import the browser however you like (Window Source).  
+For ***OBS*** you can import the browser however you like (Window Source).  
 You can apply a ***chroma key*** effect on color ***'#24282f'*** to use this as an ***"overlay"***.  
 If you use this as overlay, you should enable ***"Auto toggle hidden mode"*** and ***"Stream hidden mode"*** on!  
 If you dislike the automated toggle, you can ALWAYS use the H key to toggle it :D  
