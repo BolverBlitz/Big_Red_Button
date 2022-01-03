@@ -29,7 +29,7 @@ If you use this as overlay, you should enable ***"Auto toggle hidden mode"*** an
 If you dislike the automated toggle, you can ALWAYS use the H key to toggle it :D  
 
 ## Security
-This application dosn´t store ***AND*** of your data on the server its served by, everything runs directly in your browser :D
+This application dosn´t store ***ANY*** of your data on the server its served by, everything runs directly in your browser :D
 
 ## Setup for Hosting
 
