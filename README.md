@@ -43,3 +43,9 @@ A very basic webserver for nodeJS is already in index.js.
 
 ***Countdown:***
 ![grafik](https://user-images.githubusercontent.com/35345288/147798275-d699ca75-3a13-46b1-abd2-1adffe142860.png)
+
+## Credits
+[Twich Interface](https://github.com/tmijs/tmi.js)
+[Big Red Button](https://codepen.io/dudleystorey/pen/zqgGn)
+[Dots](https://codepen.io/allanpope/pen/eNgGJm)
+[Settings CSS](https://codepen.io/Thecoderboy/pen/mdrzGEz)
