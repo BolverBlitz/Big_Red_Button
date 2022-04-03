@@ -109,7 +109,8 @@
     const Global = {
         SnackBox_Timeout: 400,
         SnackBox_Location: 'tr',
-        isHidden: false
+        isHidden: false,
+        keymap: {}
     };
     // Get global locations
     const getUrl = window.location;
@@ -137,19 +138,23 @@
 
     //Register Keypress to go to settings
     $(document).on('keypress', function (e) {
-        if (e.which == 115 || e.which == 83) {
-            window.location.replace(`${baseUrl}settings.html`);
-            //killdots();
-        }
-        if (e.which == 104 || e.which == 72) {
-            if (Global.isHidden) {
-                hideButton(false); //hide button on h key
-                initDots();
-                Global.isHidden = false;
-            } else {
-                hideButton(true); //unhide button on h key
-                killdots();
-                Global.isHidden = true;
+        onkeydown = onkeyup = function(e){
+            e = e || event; // to deal with IE
+            Global.keymap[e.keyCode] = e.type == 'keydown';
+            if (Global.keymap[60] && Global.keymap[83]) {
+                window.location.replace(`${baseUrl}settings.html`);
+                //killdots();
+            }
+            if (Global.keymap[60] && Global.keymap[72]) {
+                if (Global.isHidden) {
+                    hideButton(false); //hide button on h key
+                    initDots();
+                    Global.isHidden = false;
+                } else {
+                    hideButton(true); //unhide button on h key
+                    killdots();
+                    Global.isHidden = true;
+                }
             }
         }
     });
@@ -164,7 +169,7 @@
     if (localStorage.getItem("Username") === null && localStorage.getItem("Channel") === null && localStorage.getItem("Reson") === null && localStorage.getItem("CoutDownTime") === null) {
         sessionStorage.setItem("first_open", "false")
         SnackBar({
-            message: `You need to enter settings, press "S" to go to settings`,
+            message: `You need to enter settings, press "< + S" to go to settings`,
             width: "400px",
             speed: Global.SnackBox_Timeout,
             timeout: false,
@@ -176,7 +181,7 @@
     //Tell user about the settings page
     if (sessionStorage.getItem("first_open") == "true") {
         SnackBar({
-            message: `To get to the settings, press "S"`,
+            message: `To get to the settings, press "< + S"`,
             width: "400px",
             speed: Global.SnackBox_Timeout * 2,
             position: Global.SnackBox_Location,
