@@ -148,10 +148,12 @@
             if (Global.keymap[60] && Global.keymap[72]) {
                 if (Global.isHidden) {
                     hideButton(false); //hide button on h key
+                    $('#UserToBan').val("");
                     initDots();
                     Global.isHidden = false;
                 } else {
                     hideButton(true); //unhide button on h key
+                    $('#UserToBan').val("");
                     killdots();
                     Global.isHidden = true;
                 }
